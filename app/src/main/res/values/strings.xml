@@ -7,4 +7,5 @@
     <string name="degrees_circle">Degrees circle</string>
     <string name="direction_arrows">Direction arrows</string>
     <string name="pointer">Pointer</string>
+    <string name="comp_border_target">Compas border target</string>
 </resources>

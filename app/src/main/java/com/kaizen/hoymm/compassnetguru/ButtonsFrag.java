@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 public class ButtonsFrag extends Fragment {
     private Button latitude, longitude, googleMaps;
+    private RefreshCords refreshCords;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,14 +26,16 @@ public class ButtonsFrag extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initButtons(view);
+        initObjects(view);
         setButtonsActions();
     }
 
-    private void initButtons(View view) {
+    private void initObjects(View view) {
         latitude = view.findViewById(R.id.latitude);
         longitude = view.findViewById(R.id.longitude);
         googleMaps = view.findViewById(R.id.googleMaps);
+
+        refreshCords = (RefreshCords) getActivity();
     }
 
     private void setButtonsActions() {

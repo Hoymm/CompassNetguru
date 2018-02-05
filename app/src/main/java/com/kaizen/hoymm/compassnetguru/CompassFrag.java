@@ -13,7 +13,8 @@ import android.widget.ImageView;
  */
 
 public class CompassFrag extends Fragment {
-    private ImageView pointer;
+    private Coords targetLocation, yourLocation;
+    private ImageView pointerImg, targetImg;
 
     @Nullable
     @Override
@@ -24,6 +25,17 @@ public class CompassFrag extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pointer = view.findViewById(R.id.pointer);
+        initObjects(view);
+        targetLocation = SP_Data.getTargetLocation(getActivity());
+    }
+
+    private void initObjects(View view) {
+        pointerImg = view.findViewById(R.id.pointer);
+        targetImg = view.findViewById(R.id.target);
+    }
+
+    public void setTargetLocation(Coords newTargetLocation){
+        targetLocation = newTargetLocation;
+        SP_Data.saveTargetLocation(targetLocation, getActivity());
     }
 }

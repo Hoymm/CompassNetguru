@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RefreshCords {
     private CompassFrag compassFrag;
     private ButtonsFrag buttonsFrag;
 
@@ -46,5 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void addFrag(int viewId, Fragment frag) {
         getSupportFragmentManager().beginTransaction().add(viewId, frag).commit();
+    }
+
+    @Override
+    public void setNewTargetLocation(Coords newTargetLocation) {
+        compassFrag.setTargetLocation(newTargetLocation);
     }
 }
