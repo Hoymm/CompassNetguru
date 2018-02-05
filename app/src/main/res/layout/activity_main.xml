@@ -10,6 +10,7 @@
     android:paddingBottom="@dimen/AppPaddingBottom"
     android:paddingLeft="@dimen/AppPaddingLeft"
     android:paddingStart="@dimen/AppPaddingLeft"
+    android:background="@color/appBackground"
     >
 
     <FrameLayout

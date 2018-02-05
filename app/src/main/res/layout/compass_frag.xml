@@ -10,21 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/border"
+        android:contentDescription="@string/compass_border"
         />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/degrees"
+        android:contentDescription="@string/degrees_circle"
         />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/directions"
+        android:contentDescription="@string/direction_arrows"
         />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/pointer"
         android:id="@+id/pointer"
+        android:contentDescription="@string/pointer"
         />
 </RelativeLayout>

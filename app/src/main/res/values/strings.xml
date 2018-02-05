@@ -3,4 +3,8 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="choose_on_map">CHOOSE ON MAP</string>
+    <string name="compass_border">Compass Border</string>
+    <string name="degrees_circle">Degrees circle</string>
+    <string name="direction_arrows">Direction arrows</string>
+    <string name="pointer">Pointer</string>
 </resources>
