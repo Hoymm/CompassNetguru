@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="AppPaddingTop">16dp</dimen>
+    <dimen name="AppPaddingRight">16dp</dimen>
+    <dimen name="AppPaddingBottom">16dp</dimen>
+    <dimen name="AppPaddingLeft">16dp</dimen>
+</resources>
