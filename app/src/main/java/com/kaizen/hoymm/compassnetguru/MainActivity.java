@@ -1,5 +1,6 @@
 package com.kaizen.hoymm.compassnetguru;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,12 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initAndAddButtonsFrag() {
         buttonsFrag = new ButtonsFrag();
-        getSupportFragmentManager().beginTransaction().add(R.id.buttonsFrame, buttonsFrag).commit();
+        addFrag(R.id.buttonsFrame, buttonsFrag);
     }
 
     private void initAndAddCompassFrag() {
         compassFrag = new CompassFrag();
-        getSupportFragmentManager().beginTransaction().add(R.id.compassFrame, compassFrag).commit();
+        addFrag(R.id.compassFrame, compassFrag);
     }
 
+    private void addFrag(int viewId, Fragment frag) {
+        getSupportFragmentManager().beginTransaction().add(viewId, frag).commit();
+    }
 }
