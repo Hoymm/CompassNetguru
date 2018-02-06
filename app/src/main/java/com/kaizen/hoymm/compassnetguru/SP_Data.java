@@ -14,7 +14,7 @@ import static android.content.Context.MODE_PRIVATE;
 class SP_Data {
     final static String TARGET_COORDS_KEY = "com.kaizen.hoymm.compassnetguru.CompassFrag.TARGET_COORDS_KEY";
 
-    static Coords getTargetLocation(Activity activity) {
+    static Coords getLastTargetLocation(Activity activity) {
         SharedPreferences mPrefs = activity.getPreferences(MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(TARGET_COORDS_KEY, "");

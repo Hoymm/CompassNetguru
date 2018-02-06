@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 /**
  * Created by Damian Muca (Kaizen) on 05.02.18.
@@ -14,7 +13,7 @@ import android.widget.ImageView;
 
 public class CompassFrag extends Fragment {
     private Coords targetLocation, yourLocation;
-    private ImageView pointerImg, targetImg;
+    private Needle needle;
 
     @Nullable
     @Override
@@ -26,16 +25,32 @@ public class CompassFrag extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initObjects(view);
-        targetLocation = SP_Data.getTargetLocation(getActivity());
+        targetLocation = SP_Data.getLastTargetLocation(getActivity());
+
     }
 
     private void initObjects(View view) {
-        pointerImg = view.findViewById(R.id.pointer);
-        targetImg = view.findViewById(R.id.target);
+        initNeedle(view);
+    }
+
+    private void initNeedle(View view) {
+        needle = new Needle(getContext(), view.findViewById(R.id.pointer));
     }
 
     public void setTargetLocation(Coords newTargetLocation){
         targetLocation = newTargetLocation;
         SP_Data.saveTargetLocation(targetLocation, getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        needle.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        needle.onPause();
     }
 }
