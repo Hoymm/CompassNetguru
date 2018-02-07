@@ -7,21 +7,17 @@ import com.google.gson.Gson;
 
 import static android.content.Context.MODE_PRIVATE;
 
-/**
- * Created by Damian Muca (Kaizen) on 05.02.18.
- */
-
 class SP_Data {
-    final static String TARGET_COORDS_KEY = "com.kaizen.hoymm.compassnetguru.CompassFrag.TARGET_COORDS_KEY";
+    private final static String TARGET_COORDS_KEY = "com.kaizen.hoymm.compassnetguru.CompassFrag.TARGET_COORDS_KEY";
 
-    static Coords getLastTargetLocation(Activity activity) {
+    static DoublePoint getLastTargetLocation(Activity activity) {
         SharedPreferences mPrefs = activity.getPreferences(MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString(TARGET_COORDS_KEY, "");
-        return gson.fromJson(json, Coords.class);
+        return gson.fromJson(json, DoublePoint.class);
     }
 
-    static void saveTargetLocation(Coords targetLoc, Activity activity) {
+    static void saveTargetLocation(DoublePoint targetLoc, Activity activity) {
         SharedPreferences  mPrefs = activity.getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();

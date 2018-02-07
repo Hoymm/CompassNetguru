@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements RefreshCords {
         initAndAddFragments();
     }
 
+
     private void hideStatusBar() {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements RefreshCords {
     }
 
     @Override
-    public void setNewTargetLocation(Coords newTargetLocation) {
+    public void setNewTargetLocation(DoublePoint newTargetLocation) {
         compassFrag.setTargetLocation(newTargetLocation);
     }
 }

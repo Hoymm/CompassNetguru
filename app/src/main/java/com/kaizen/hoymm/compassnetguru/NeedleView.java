@@ -5,39 +5,32 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import static android.content.Context.SENSOR_SERVICE;
+import static android.hardware.Sensor.TYPE_ORIENTATION;
 
-/**
- * Created by Damian Muca (Kaizen) on 06.02.18.
- */
-
-public class Needle implements SensorEventListener {
+class NeedleView implements SensorEventListener {
     private SensorManager mSensorManager;
     private ImageView needle;
 
-    Needle(Context context, ImageView needle){
+    NeedleView(Context context, ImageView needle){
         mSensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
         this.needle = needle;
     }
 
     void onResume(){
         // TODO change deprecated Sensor
-        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_FASTEST);
         needle.setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float degree = Math.round(event.values[0]);
-        Log.i("Degree", String.valueOf(-degree));
-        needle.setRotation(-degree);
+        needle.setRotation(-event.values[0]);
     }
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 

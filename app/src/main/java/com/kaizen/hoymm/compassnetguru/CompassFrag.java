@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Damian Muca (Kaizen) on 05.02.18.
- */
-
 public class CompassFrag extends Fragment {
-    private Coords targetLocation, yourLocation;
-    private Needle needle;
+    private DoublePoint targetLocation, yourLocation;
+    private DestinationPointView destinationPointView;
+    private NeedleView needleView;
 
     @Nullable
     @Override
@@ -29,15 +26,25 @@ public class CompassFrag extends Fragment {
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     private void initObjects(View view) {
         initNeedle(view);
+        initTargetPoint(view);
     }
 
     private void initNeedle(View view) {
-        needle = new Needle(getContext(), view.findViewById(R.id.pointer));
+        needleView = new NeedleView(getContext(), view.findViewById(R.id.pointer));
     }
 
-    public void setTargetLocation(Coords newTargetLocation){
+    private void initTargetPoint(View view) {
+        destinationPointView = new DestinationPointView(view.findViewById(R.id.target));
+    }
+
+    public void setTargetLocation(DoublePoint newTargetLocation){
         targetLocation = newTargetLocation;
         SP_Data.saveTargetLocation(targetLocation, getActivity());
     }
@@ -45,12 +52,14 @@ public class CompassFrag extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        needle.onResume();
+        needleView.onResume();
+        destinationPointView.onResume(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        needle.onPause();
+        needleView.onPause();
+        destinationPointView.onPause();
     }
 }
