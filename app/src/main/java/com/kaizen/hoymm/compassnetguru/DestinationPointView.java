@@ -1,6 +1,5 @@
 package com.kaizen.hoymm.compassnetguru;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,40 +14,16 @@ class DestinationPointView {
         targetImg = triangleTarget;
     }
 
-    void onResume(final Activity activity) {
+    void onResume() {
         // TODO change deprecated Sensor
-        performAnimationAfterGraphRendered(activity);
         targetImg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
     }
 
-    private void performAnimationAfterGraphRendered(Activity activity) {
-        new Thread(() -> {
-            while(isTargetGraphRendered()) {
-                isTargetGraphRendered();
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isTargetGraphRendered();
-            activity.runOnUiThread(this::tryAnimateTargetAtProperPosition);
-        }).start();
-    }
 
-    private boolean isTargetGraphRendered() {
-        return targetImg.getWidth() != 0 && targetImg.getHeight() != 0;
-    }
 
-    private void tryAnimateTargetAtProperPosition() {
+    void tryAnimateTargetAtProperPosition() {
         DoublePoint cracow = new DoublePoint(50.0647, 19.9450);
         DoublePoint rzeszow = new DoublePoint(50.027504, 22.008011);
-
 
         try {
             performAnimationSetUpTarget(cracow, rzeszow);
@@ -60,7 +35,7 @@ class DestinationPointView {
 
     private void performAnimationSetUpTarget(DoublePoint yourPos, DoublePoint targetPos) throws PointsAreTheSameException {
         float rotateFromAngle = targetImg.getRotation();
-        float rotateToAngle = -(tryGetBearingBetweenPoints(yourPos, targetPos) - 90);
+        float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
         rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
 
         targetImg.setVisibility(View.VISIBLE);
@@ -71,7 +46,8 @@ class DestinationPointView {
         rotateAnimation.setDuration(1700);
         rotateAnimation.setInterpolator(x -> (float) (Math.cos((x + 1) * Math.PI) / 2 + 0.5));
         rotateAnimation.setFillAfter(true);
-        targetImg.startAnimation(rotateAnimation);
+        targetImg.setAnimation(rotateAnimation);
+        targetImg.animate();
     }
 
     private float findShortestAnglePath(float rotateFromAngle, float rotateToAngle) {

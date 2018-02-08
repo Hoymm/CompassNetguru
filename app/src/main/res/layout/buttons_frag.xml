@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <Button
         android:text="@string/latitude"
@@ -33,7 +34,6 @@
         android:id="@+id/googleMaps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/latitude"
-
+        app:layout_constraintTop_toBottomOf="@+id/latitude"
         />
 </android.support.constraint.ConstraintLayout>

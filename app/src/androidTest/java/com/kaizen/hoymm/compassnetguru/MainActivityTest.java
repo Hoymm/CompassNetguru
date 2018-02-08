@@ -1,8 +1,6 @@
 package com.kaizen.hoymm.compassnetguru;
 
-import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ImageView;
 
 import org.junit.After;

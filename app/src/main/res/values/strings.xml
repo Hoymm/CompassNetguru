@@ -8,4 +8,6 @@
     <string name="direction_arrows">Direction arrows</string>
     <string name="pointer">Pointer</string>
     <string name="comp_border_target">Compas border target</string>
+    <string name="loc_perm_req">Location permission required</string>
+    <string name="access_coarse_loc_explanation">Application needs location permission to properly show you your target direction.</string>
 </resources>

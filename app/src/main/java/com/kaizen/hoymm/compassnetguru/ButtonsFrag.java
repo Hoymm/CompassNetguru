@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class ButtonsFrag extends Fragment {
     private Button latitude, longitude, googleMaps;
     private RefreshCords refreshCords;
+    private LocationPermissions locPerm;
 
     @Nullable
     @Override
@@ -28,6 +29,7 @@ public class ButtonsFrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initObjects(view);
         setButtonsActions();
+        locPerm = new LocationPermissions();
     }
 
     private void initObjects(View view) {
@@ -46,19 +48,29 @@ public class ButtonsFrag extends Fragment {
 
     private View.OnClickListener getLatitudeButtonAction() {
         return v -> {
-                Toast.makeText(getContext(), "Latitude",Toast.LENGTH_SHORT).show();
-            };
+            if (locPerm.isCoarseLocPermissionGranted(getContext()))
+                Toast.makeText(getContext(), "Latitude", Toast.LENGTH_SHORT).show();
+            else
+                locPerm.askForGrantingCoarseLocPermission(getActivity());
+        };
     }
 
     private View.OnClickListener getLongitudeButtonAction() {
         return v -> {
-            Toast.makeText(getContext(), "Longitude",Toast.LENGTH_SHORT).show();
+            if (locPerm.isCoarseLocPermissionGranted(getContext()))
+                Toast.makeText(getContext(), "Longitude",Toast.LENGTH_SHORT).show();
+            else
+                locPerm.askForGrantingCoarseLocPermission(getActivity());
         };
     }
 
     private View.OnClickListener getGoogleMapsButtonAction() {
         return v -> {
-            Toast.makeText(getContext(), "Google Maps",Toast.LENGTH_SHORT).show();
+            if (locPerm.isCoarseLocPermissionGranted(getContext()))
+                Toast.makeText(getContext(), "Google Maps",Toast.LENGTH_SHORT).show();
+            else
+                locPerm.askForGrantingCoarseLocPermission(getActivity());
         };
     }
+
 }

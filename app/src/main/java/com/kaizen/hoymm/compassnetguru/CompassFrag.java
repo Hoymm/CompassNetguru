@@ -23,6 +23,7 @@ public class CompassFrag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initObjects(view);
         targetLocation = SP_Data.getLastTargetLocation(getActivity());
+        destinationPointView.tryAnimateTargetAtProperPosition();
 
     }
 
@@ -53,7 +54,6 @@ public class CompassFrag extends Fragment {
     public void onResume() {
         super.onResume();
         needleView.onResume();
-        destinationPointView.onResume(getActivity());
     }
 
     @Override
