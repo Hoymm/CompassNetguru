@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="appBackground">#3e3e3e</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="errorColor">#9fff0000</color>
 </resources>

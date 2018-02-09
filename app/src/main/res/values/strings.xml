@@ -10,4 +10,10 @@
     <string name="comp_border_target">Compas border target</string>
     <string name="loc_perm_req">Location permission required</string>
     <string name="access_coarse_loc_explanation">Application needs location permission to properly show you your target direction.</string>
+    <string name="target_location">Target location</string>
+    <string name="your_location">Your Location</string>
+    <string name="please_user_proper_format_i_e_54_3432">Please use proper format i.e. 54.3432</string>
+    <string name="too_big_value">Please insert value from interval -180.0 and 180.0</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>

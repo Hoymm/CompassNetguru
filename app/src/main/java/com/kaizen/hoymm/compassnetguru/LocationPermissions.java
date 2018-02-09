@@ -13,9 +13,9 @@ import android.support.v7.app.AlertDialog;
  */
 
 class LocationPermissions {
-    final private static int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
+    final static int MY_PERMISSIONS_ACCESS_COARSE_LOCATION = 1;
 
-    void askForGrantingCoarseLocPermission(final Activity activity){
+    static void askForGrantingCoarseLocPermission(final Activity activity){
         if (!isCoarseLocPermissionGranted(activity)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_COARSE_LOCATION))
                 showDialogToExplainWhyAppNeedsPermission(activity);
@@ -24,12 +24,12 @@ class LocationPermissions {
         }
     }
 
-    boolean isCoarseLocPermissionGranted(Context context) {
+    static boolean isCoarseLocPermissionGranted(Context context) {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void showDialogToExplainWhyAppNeedsPermission(Activity activity) {
+    private static void showDialogToExplainWhyAppNeedsPermission(Activity activity) {
         AlertDialog.Builder explanationDialog = new AlertDialog.Builder(activity);
         explanationDialog.setCancelable(true);
         explanationDialog.setTitle(R.string.loc_perm_req);
@@ -40,7 +40,7 @@ class LocationPermissions {
         alertDialog.show();
     }
 
-    private void askForAccessCoarseLocationPermission(Activity activity) {
+    private static void askForAccessCoarseLocationPermission(Activity activity) {
         ActivityCompat.requestPermissions(activity,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 MY_PERMISSIONS_ACCESS_COARSE_LOCATION);

@@ -22,8 +22,8 @@ public class MainActivityTest {
 
     @Test
     public void testPointerImageViewNotNull(){
-        ImageView textView = (ImageView) mActivity.findViewById(R.id.pointer);
-        assertNotNull(textView);
+        ImageView imageView = mActivity.findViewById(R.id.pointer);
+        assertNotNull(imageView);
     }
 
     @After

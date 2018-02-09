@@ -21,33 +21,37 @@ class DestinationPointView {
 
 
 
-    void tryAnimateTargetAtProperPosition() {
-        DoublePoint cracow = new DoublePoint(50.0647, 19.9450);
-        DoublePoint rzeszow = new DoublePoint(50.027504, 22.008011);
-
+    void refreshTargetPositionIfYourAndTargetKnown(DoublePoint from, DoublePoint to) throws NullPointerException {
         try {
-            performAnimationSetUpTarget(cracow, rzeszow);
+            performAnimationSetUpTarget(from, to);
         } catch (PointsAreTheSameException e) {
             e.printStackTrace();
             Log.e("Bearing Angle", "Points given to count bearing are the same.");
         }
     }
 
-    private void performAnimationSetUpTarget(DoublePoint yourPos, DoublePoint targetPos) throws PointsAreTheSameException {
-        float rotateFromAngle = targetImg.getRotation();
-        float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
-        rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
+    private void performAnimationSetUpTarget(DoublePoint yourPos, DoublePoint targetPos)
+            throws PointsAreTheSameException, NullPointerException {
 
-        targetImg.setVisibility(View.VISIBLE);
-        Log.i("Img", "Width: " + String.valueOf(targetImg.getWidth()) + ", height: " + String.valueOf(targetImg.getHeight()));
-        RotateAnimation rotateAnimation = new RotateAnimation(rotateFromAngle, rotateToAngle,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnimation.setDuration(1700);
-        rotateAnimation.setInterpolator(x -> (float) (Math.cos((x + 1) * Math.PI) / 2 + 0.5));
-        rotateAnimation.setFillAfter(true);
-        targetImg.setAnimation(rotateAnimation);
-        targetImg.animate();
+        try{
+            float rotateFromAngle = targetImg.getRotation();
+            float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
+            rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
+
+            targetImg.setVisibility(View.VISIBLE);
+            Log.i("Img", "Width: " + String.valueOf(targetImg.getWidth()) + ", height: " + String.valueOf(targetImg.getHeight()));
+            RotateAnimation rotateAnimation = new RotateAnimation(rotateFromAngle, rotateToAngle,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnimation.setDuration(1700);
+            rotateAnimation.setInterpolator(x -> (float) (Math.cos((x + 1) * Math.PI) / 2 + 0.5));
+            rotateAnimation.setFillAfter(true);
+            targetImg.setAnimation(rotateAnimation);
+            targetImg.animate();
+        }
+        catch (NullPointerException e){
+            throw e;
+        }
     }
 
     private float findShortestAnglePath(float rotateFromAngle, float rotateToAngle) {

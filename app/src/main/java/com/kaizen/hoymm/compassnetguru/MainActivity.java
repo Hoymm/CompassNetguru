@@ -4,15 +4,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 public class MainActivity extends FragmentActivity implements RefreshCords {
     private CompassFrag compassFrag;
     private ButtonsFrag buttonsFrag;
+    private HeaderFrag headerFrag;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initAndAddFragments();
+        initLocationClient();
     }
 
     @Override
@@ -21,18 +27,24 @@ public class MainActivity extends FragmentActivity implements RefreshCords {
     }
 
     private void initAndAddFragments() {
+        initAndAddHeaderFrag();
         initAndAddButtonsFrag();
         initAndAddCompassFrag();
     }
 
+    private void initAndAddHeaderFrag() {
+        headerFrag = new HeaderFrag();
+        addFrag(R.id.headerFrag, headerFrag);
+    }
+
     private void initAndAddButtonsFrag() {
         buttonsFrag = new ButtonsFrag();
-        addFrag(R.id.buttonsFrame, buttonsFrag);
+        addFrag(R.id.buttonsFrag, buttonsFrag);
     }
 
     private void initAndAddCompassFrag() {
         compassFrag = new CompassFrag();
-        addFrag(R.id.compassFrame, compassFrag);
+        addFrag(R.id.compassFrag, compassFrag);
     }
 
     private void addFrag(int viewId, Fragment frag) {
@@ -42,5 +54,23 @@ public class MainActivity extends FragmentActivity implements RefreshCords {
     @Override
     public void setNewTargetLocation(DoublePoint newTargetLocation) {
         compassFrag.setTargetLocation(newTargetLocation);
+        headerFrag.setTargetLocation(newTargetLocation);
+    }
+
+    @Override
+    public void initLocationClient() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if(LocationPermissions.isCoarseLocPermissionGranted(this)) {
+            // Permission is checked, inside If statement, AS is lying about warning
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, (location) -> {
+                if (location != null) {
+                    headerFrag.setYourLocation(location);
+                    compassFrag.setYourLocation(location);
+                }
+                else{
+                    headerFrag.setYourLocationUnknown();
+                }
+            });
+        }
     }
 }
