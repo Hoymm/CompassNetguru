@@ -48,14 +48,12 @@ public class CompassFrag extends Fragment {
     }
 
 
-    // TODO write test to check if when null pass as argument does not crash an application
     public void setTargetLocation(DoublePoint newTargetLocation){
         targetLocation = newTargetLocation;
         SP_Data.saveTargetLocation(targetLocation, getActivity());
         tryRefreshTargetImg();
     }
 
-    // TODO write test to check if when null pass as argument does not crash an application
     public void setYourLocation(Location location){
         yourLocation.latitude = location.getLatitude();
         yourLocation.longitude = location.getLongitude();
@@ -76,6 +74,7 @@ public class CompassFrag extends Fragment {
     public void onResume() {
         super.onResume();
         needleView.onResume();
+        destinationPointView.onResume();
     }
 
     @Override

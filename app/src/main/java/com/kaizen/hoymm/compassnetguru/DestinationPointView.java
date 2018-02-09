@@ -22,18 +22,18 @@ class DestinationPointView {
 
 
     void refreshTargetPositionIfYourAndTargetKnown(DoublePoint from, DoublePoint to) throws NullPointerException {
-        try {
-            performAnimationSetUpTarget(from, to);
-        } catch (PointsAreTheSameException e) {
-            e.printStackTrace();
-            Log.e("Bearing Angle", "Points given to count bearing are the same.");
-        }
+        if (from != null && to != null)
+            try {
+                performAnimationSetUpTarget(from, to);
+            } catch (PointsAreTheSameException e) {
+                e.printStackTrace();
+                Log.e("Bearing Angle", "Points given to count bearing are the same.");
+            }
     }
 
     private void performAnimationSetUpTarget(DoublePoint yourPos, DoublePoint targetPos)
             throws PointsAreTheSameException, NullPointerException {
 
-        try{
             float rotateFromAngle = targetImg.getRotation();
             float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
             rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
@@ -48,10 +48,6 @@ class DestinationPointView {
             rotateAnimation.setFillAfter(true);
             targetImg.setAnimation(rotateAnimation);
             targetImg.animate();
-        }
-        catch (NullPointerException e){
-            throw e;
-        }
     }
 
     private float findShortestAnglePath(float rotateFromAngle, float rotateToAngle) {

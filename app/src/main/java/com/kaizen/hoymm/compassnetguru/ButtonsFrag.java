@@ -1,5 +1,6 @@
 package com.kaizen.hoymm.compassnetguru;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,12 +15,8 @@ import android.widget.Toast;
 
 import static com.kaizen.hoymm.compassnetguru.LocationPermissions.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
 
-/**
- * Created by Damian Muca (Kaizen) on 05.02.18.
- */
-
 public class ButtonsFrag extends Fragment {
-    private Button latitude, longitude, googleMaps;
+    private Button setTarget;
     private RefreshCords refreshCords;
 
     @Nullable
@@ -36,69 +33,72 @@ public class ButtonsFrag extends Fragment {
     }
 
     private void initObjects(View view) {
-        latitude = view.findViewById(R.id.latitude);
-        longitude = view.findViewById(R.id.longitude);
-        googleMaps = view.findViewById(R.id.googleMaps);
-
+        setTarget = view.findViewById(R.id.latitude);
         refreshCords = (RefreshCords) getActivity();
     }
 
     private void setButtonsActions() {
-        latitude.setOnClickListener(getLatitudeButtonAction());
-        longitude.setOnClickListener(getLongitudeButtonAction());
-        googleMaps.setOnClickListener(getGoogleMapsButtonAction());
+        setTarget.setOnClickListener(getSetTargetButtonAction());
     }
 
-    private View.OnClickListener getLatitudeButtonAction() {
+    private View.OnClickListener getSetTargetButtonAction() {
         return v -> {
             if (LocationPermissions.isCoarseLocPermissionGranted(getContext())){
-                AlertDialog.Builder builderDialog = new AlertDialog.Builder(getContext());
-
-
-                View latLongPickerView = getLatLngView();
-                builderDialog.setView(latLongPickerView);
-
-                builderDialog.setNegativeButton(R.string.cancel, ((dialog, which) -> {}));
-                builderDialog.setPositiveButton(R.string.ok, ((dialog, which) -> {}));
-                AlertDialog dialog = builderDialog.create();
-
-                dialog.setOnShowListener(dialogInterface -> {
-
-                    Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                    button.setOnClickListener(view -> {
-                        // TODO Do something
-
-                        TextView latText = latLongPickerView.findViewById(R.id.latitudeInput);
-                        TextView lngText = latLongPickerView.findViewById(R.id.longitudeInput);
-                        TextView errorText = latLongPickerView.findViewById(R.id.errorMessage);
-                        String latValue = latText.getText().toString();
-                        String lngValue = lngText.getText().toString();
-
-                        try {
-                            if (isLatLngInputProper(latValue, lngValue)) {
-                                DoublePoint newTarget = new DoublePoint(Double.valueOf(latValue), Double.valueOf(lngValue));
-                                refreshCords.setNewTargetLocation(newTarget);
-                                dialog.dismiss();
-                                errorText.setVisibility(View.GONE);
-                            } else {
-                                errorText.setVisibility(View.VISIBLE);
-                                errorText.setText(getString(R.string.too_big_value));
-                            }
-                            //Dismiss once everything is OK.
-                        }catch (NumberFormatException e){
-                            errorText.setVisibility(View.VISIBLE);
-                            errorText.setText(getString(R.string.please_user_proper_format_i_e_54_3432));
-                        }
-                    });
-                });
-                dialog.show();
-
-
-                dialog.show();
+                showDialogToPickTargetPointValues();
             }
             else
                 LocationPermissions.askForGrantingCoarseLocPermission(getActivity());
         };
+    }
+
+    private void showDialogToPickTargetPointValues() {
+        AlertDialog.Builder builderDialog = new AlertDialog.Builder(getContext());
+        View latLongPickerView = getLatLngView();
+        builderDialog.setView(latLongPickerView);
+        builderDialog.setNegativeButton(R.string.cancel, ((dialog, which) -> {}));
+        builderDialog.setPositiveButton(R.string.ok, ((dialog, which) -> {}));
+        AlertDialog dialog = builderDialog.create();
+        dialog.setOnShowListener(getPossitiveButtonAction(latLongPickerView, dialog));
+        dialog.show();
+    }
+
+    @NonNull
+    private DialogInterface.OnShowListener getPossitiveButtonAction(View latLongPickerView, AlertDialog dialog) {
+        return dialogInterface -> {
+
+            Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            button.setOnClickListener(view -> {
+                try {
+                    tryPorcessWithNewlyInsertedValues(latLongPickerView, dialog);
+                }catch (NumberFormatException e){
+                    alertUserToUseProperDoubleNotation(latLongPickerView);
+                }
+            });
+        };
+    }
+
+    private void tryPorcessWithNewlyInsertedValues(View latLongPickerView, AlertDialog dialog) {
+        TextView latText = latLongPickerView.findViewById(R.id.latitudeInput);
+        TextView lngText = latLongPickerView.findViewById(R.id.longitudeInput);
+        TextView errorText = latLongPickerView.findViewById(R.id.errorMessage);
+
+        String latValue = latText.getText().toString();
+        String lngValue = lngText.getText().toString();
+        if (isLatLngInputProper(latValue, lngValue)) {
+            DoublePoint newTarget = new DoublePoint(Double.valueOf(latValue), Double.valueOf(lngValue));
+            refreshCords.setNewTargetLocation(newTarget);
+            dialog.dismiss();
+            errorText.setVisibility(View.GONE);
+        } else {
+            errorText.setVisibility(View.VISIBLE);
+            errorText.setText(getString(R.string.too_big_value));
+        }
+    }
+
+    private void alertUserToUseProperDoubleNotation(View latLongPickerView) {
+        TextView errorText = latLongPickerView.findViewById(R.id.errorMessage);
+        errorText.setVisibility(View.VISIBLE);
+        errorText.setText(getString(R.string.please_user_proper_format_i_e_54_3432));
     }
 
     public boolean isLatLngInputProper(String latValue, String lngValue) throws NumberFormatException {
@@ -111,8 +111,7 @@ public class ButtonsFrag extends Fragment {
 
     private View getLatLngView() {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-        View dialogView = layoutInflater.inflate(R.layout.lat_lng_picker_dialog, null);
-        return dialogView;
+        return layoutInflater.inflate(R.layout.lat_lng_picker_dialog, null);
     }
 
     private View.OnClickListener getLongitudeButtonAction() {

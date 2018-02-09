@@ -2,6 +2,7 @@ package com.kaizen.hoymm.compassnetguru;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -18,11 +19,16 @@ class SP_Data {
     }
 
     static void saveTargetLocation(DoublePoint targetLoc, Activity activity) {
-        SharedPreferences  mPrefs = activity.getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(targetLoc);
-        prefsEditor.putString(TARGET_COORDS_KEY, json);
-        prefsEditor.apply();
+        try {
+            SharedPreferences mPrefs = activity.getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor prefsEditor = mPrefs.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(targetLoc);
+            prefsEditor.putString(TARGET_COORDS_KEY, json);
+            prefsEditor.apply();
+        }catch (NullPointerException e){
+            Log.e("Save Target Location", " probably values of targetLoc was null.");
+            e.printStackTrace();
+        }
     }
 }

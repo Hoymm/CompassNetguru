@@ -16,4 +16,5 @@
     <string name="too_big_value">Please insert value from interval -180.0 and 180.0</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="set_target">Set target</string>
 </resources>

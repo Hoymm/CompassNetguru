@@ -1,5 +1,6 @@
 package com.kaizen.hoymm.compassnetguru;
 
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.ImageView;
 
@@ -20,7 +21,7 @@ public class MainActivityTest {
         mActivity = mActivityTestRule.getActivity();
     }
 
-    @Test
+    @LargeTest
     public void testPointerImageViewNotNull(){
         ImageView imageView = mActivity.findViewById(R.id.pointer);
         assertNotNull(imageView);
