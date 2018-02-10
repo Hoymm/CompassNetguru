@@ -24,12 +24,6 @@ public class CompassFragTest {
         compassFrag.setTargetLocation(null);
     }
 
-    @Test  (expected = NullPointerException.class)
-    public void testSetYourLocation_Expection1(){
-        Location location = new Location("test");
-        compassFrag.setYourLocationAndRefreshGraph(location);
-    }
-
     @Test (expected = NullPointerException.class)
     public void testSetYourLocation_Exception2(){
         compassFrag.setYourLocationAndRefreshGraph(null);

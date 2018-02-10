@@ -88,17 +88,17 @@ public class DestinationPointViewTest {
         assertEquals(expected, actual, 0.1f);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void refreshTargetPositionIfYourAndTargetKnownTest_ExpectNullPtrExpection1(){
         destinationPointView.tryRefreshTargetPositionIfYourAndTargetKnown(null, new DoublePoint(23.2, 23.1));
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void refreshTargetPositionIfYourAndTargetKnownTest_ExpectNullPtrExpection2(){
         destinationPointView.tryRefreshTargetPositionIfYourAndTargetKnown(new DoublePoint(23.2, 23.1), null);
     }
 
-    @Test (expected = NullPointerException.class)
+    @Test
     public void refreshTargetPositionIfYourAndTargetKnownTest_ExpectNullPtrExpection3(){
         destinationPointView.tryRefreshTargetPositionIfYourAndTargetKnown(null, null);
     }
