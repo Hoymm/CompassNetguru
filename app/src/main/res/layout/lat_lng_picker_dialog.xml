@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/latitude"
         android:inputType="numberDecimal|numberSigned"
+        android:imeOptions="actionNone"
         android:id="@+id/latitudeInput"
         />
     <EditText
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/longitude"
         android:inputType="numberDecimal|numberSigned"
+        android:imeOptions="actionNone"
         android:id="@+id/longitudeInput"
         />
     <TextView

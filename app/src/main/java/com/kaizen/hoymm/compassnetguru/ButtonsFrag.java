@@ -55,6 +55,7 @@ public class ButtonsFrag extends Fragment {
         }));
         builderDialog.setPositiveButton(R.string.ok, ((dialog, which) -> {
         }));
+        builderDialog.setTitle(R.string.insert_target_position);
         AlertDialog dialog = builderDialog.create();
         dialog.setOnShowListener(getPossitiveButtonAction(latLongPickerView, dialog));
         dialog.show();
