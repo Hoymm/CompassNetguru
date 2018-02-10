@@ -24,6 +24,7 @@ public class HeaderFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.header_frag, container, false);
+
     }
 
     @Override
@@ -32,6 +33,7 @@ public class HeaderFrag extends Fragment {
         yourLocTV = view.findViewById(R.id.yourLocationParameters);
         tarLocTV = view.findViewById(R.id.tarLocationParameters);
         locImg = view.findViewById(R.id.location_img);
+        setTargetLocation(SP_Data.getLastTargetLocation(getActivity()));
     }
 
     void setYourLocation(Location location){
@@ -45,8 +47,10 @@ public class HeaderFrag extends Fragment {
     }
 
     void setTargetLocation(DoublePoint doublePoint){
-        tarLocTV.setText("Lat: " + txtFormat.format(doublePoint.latitude) + ", Lng: "
-                + txtFormat.format(doublePoint.longitude));
-        locImg.setImageResource(R.drawable.ic_gps_unlocated);
+        if (doublePoint != null) {
+            tarLocTV.setText("Lat: " + txtFormat.format(doublePoint.latitude) + ", Lng: "
+                    + txtFormat.format(doublePoint.longitude));
+            locImg.setImageResource(R.drawable.ic_gps_unlocated);
+        }
     }
 }

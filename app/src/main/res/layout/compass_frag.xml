@@ -9,16 +9,16 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/border_target"
-        android:visibility="invisible"
-        android:id="@+id/target"
-        android:contentDescription="@string/comp_border_target"
+        android:src="@drawable/degrees"
+        android:contentDescription="@string/degrees_circle"
         />
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/degrees"
-        android:contentDescription="@string/degrees_circle"
+        android:src="@drawable/border_target"
+        android:visibility="invisible"
+        android:id="@+id/target"
+        android:contentDescription="@string/comp_border_target"
         />
     <ImageView
         android:layout_width="match_parent"

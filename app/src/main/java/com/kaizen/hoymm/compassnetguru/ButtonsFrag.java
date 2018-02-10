@@ -1,19 +1,24 @@
 package com.kaizen.hoymm.compassnetguru;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import static com.kaizen.hoymm.compassnetguru.LocationPermissions.MY_PERMISSIONS_ACCESS_COARSE_LOCATION;
+import com.google.android.gms.location.LocationServices;
+
+import static com.kaizen.hoymm.compassnetguru.LocationPermissions.MY_PERMISSIONS_ACCESS_LOCATION;
 
 public class ButtonsFrag extends Fragment {
     private Button setTarget;
@@ -43,10 +48,9 @@ public class ButtonsFrag extends Fragment {
 
     private View.OnClickListener getSetTargetButtonAction() {
         return v -> {
-            if (LocationPermissions.isCoarseLocPermissionGranted(getContext())){
+            if (LocationPermissions.isLocPermissionGranted(getContext())) {
                 showDialogToPickTargetPointValues();
-            }
-            else
+            } else
                 LocationPermissions.askForGrantingCoarseLocPermission(getActivity());
         };
     }
@@ -55,8 +59,10 @@ public class ButtonsFrag extends Fragment {
         AlertDialog.Builder builderDialog = new AlertDialog.Builder(getContext());
         View latLongPickerView = getLatLngView();
         builderDialog.setView(latLongPickerView);
-        builderDialog.setNegativeButton(R.string.cancel, ((dialog, which) -> {}));
-        builderDialog.setPositiveButton(R.string.ok, ((dialog, which) -> {}));
+        builderDialog.setNegativeButton(R.string.cancel, ((dialog, which) -> {
+        }));
+        builderDialog.setPositiveButton(R.string.ok, ((dialog, which) -> {
+        }));
         AlertDialog dialog = builderDialog.create();
         dialog.setOnShowListener(getPossitiveButtonAction(latLongPickerView, dialog));
         dialog.show();
@@ -70,7 +76,7 @@ public class ButtonsFrag extends Fragment {
             button.setOnClickListener(view -> {
                 try {
                     tryPorcessWithNewlyInsertedValues(latLongPickerView, dialog);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     alertUserToUseProperDoubleNotation(latLongPickerView);
                 }
             });
@@ -112,32 +118,5 @@ public class ButtonsFrag extends Fragment {
     private View getLatLngView() {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         return layoutInflater.inflate(R.layout.lat_lng_picker_dialog, null);
-    }
-
-    private View.OnClickListener getLongitudeButtonAction() {
-        return v -> {
-            if (LocationPermissions.isCoarseLocPermissionGranted(getContext()))
-                Toast.makeText(getContext(), "Longitude",Toast.LENGTH_SHORT).show();
-            else
-                LocationPermissions.askForGrantingCoarseLocPermission(getActivity());
-        };
-    }
-
-    private View.OnClickListener getGoogleMapsButtonAction() {
-        return v -> {
-            if (LocationPermissions.isCoarseLocPermissionGranted(getContext()))
-                Toast.makeText(getContext(), "Google Maps",Toast.LENGTH_SHORT).show();
-            else
-                LocationPermissions.askForGrantingCoarseLocPermission(getActivity());
-        };
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case MY_PERMISSIONS_ACCESS_COARSE_LOCATION:
-                refreshCords.initLocationClient();
-                break;
-        }
     }
 }
