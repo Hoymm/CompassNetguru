@@ -80,7 +80,6 @@ public class MainActivity extends FragmentActivity implements RefreshCords {
         }
         else{
             Log.i("Location", "permission not granted.");
-
         }
     }
 

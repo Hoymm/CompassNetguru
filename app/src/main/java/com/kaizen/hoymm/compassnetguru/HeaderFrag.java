@@ -50,7 +50,6 @@ public class HeaderFrag extends Fragment {
         if (doublePoint != null) {
             tarLocTV.setText("Lat: " + txtFormat.format(doublePoint.latitude) + ", Lng: "
                     + txtFormat.format(doublePoint.longitude));
-            locImg.setImageResource(R.drawable.ic_gps_unlocated);
         }
     }
 }
