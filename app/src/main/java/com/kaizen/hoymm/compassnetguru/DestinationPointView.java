@@ -2,12 +2,13 @@ package com.kaizen.hoymm.compassnetguru;
 
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 class DestinationPointView {
-
+    private static float lastTargetDegree = 0f;
     private ImageView targetImg;
 
     DestinationPointView(ImageView triangleTarget) {
@@ -33,21 +34,60 @@ class DestinationPointView {
 
     private void performAnimationSetUpTarget(DoublePoint yourPos, DoublePoint targetPos)
             throws PointsAreTheSameException, NullPointerException {
+        if (targetImg.getVisibility() == View.INVISIBLE){
+            showTargetThenPerformRotate(yourPos, targetPos);
+        }
+        else{
+            performRotateAnimation(yourPos, targetPos);
+        }
+    }
 
-            float rotateFromAngle = targetImg.getRotation();
-            float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
-            rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
+    private void showTargetThenPerformRotate(DoublePoint yourPos, DoublePoint targetPos) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+        alphaAnimation.setDuration(1600);
+        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                targetImg.setVisibility(View.VISIBLE);
+            }
 
-            targetImg.setVisibility(View.VISIBLE);
-            Log.i("Img", "Width: " + String.valueOf(targetImg.getWidth()) + ", height: " + String.valueOf(targetImg.getHeight()));
-            RotateAnimation rotateAnimation = new RotateAnimation(rotateFromAngle, rotateToAngle,
-                    Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            rotateAnimation.setDuration(1700);
-            rotateAnimation.setInterpolator(x -> (float) (Math.cos((x + 1) * Math.PI) / 2 + 0.5));
-            rotateAnimation.setFillAfter(true);
-            targetImg.setAnimation(rotateAnimation);
-            targetImg.animate();
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                try {
+                    performRotateAnimation(yourPos, targetPos);
+                } catch (PointsAreTheSameException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        targetImg.setAnimation(alphaAnimation);
+        targetImg.animate();
+    }
+
+    private void performRotateAnimation(DoublePoint yourPos, DoublePoint targetPos) throws PointsAreTheSameException {
+        float rotateFromAngle = lastTargetDegree;
+        float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
+        lastTargetDegree = rotateToAngle;
+
+        rotateToAngle = findShortestAnglePath(rotateFromAngle, rotateToAngle);
+
+        targetImg.setVisibility(View.VISIBLE);
+        Log.i("Img", "Width: " + String.valueOf(targetImg.getWidth()) + ", height: " + String.valueOf(targetImg.getHeight()));
+        RotateAnimation rotateAnimation = new RotateAnimation(rotateFromAngle, rotateToAngle,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnimation.setDuration(1700);
+        rotateAnimation.setInterpolator(x -> (float) (Math.cos((x + 1) * Math.PI) / 2 + 0.5));
+        rotateAnimation.setFillAfter(true);
+        targetImg.setAnimation(rotateAnimation);
+        targetImg.animate();
     }
 
     private float findShortestAnglePath(float rotateFromAngle, float rotateToAngle) {
