@@ -1,24 +1,16 @@
 package com.kaizen.hoymm.compassnetguru;
 
-import android.Manifest;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.android.gms.location.LocationServices;
-
-import static com.kaizen.hoymm.compassnetguru.LocationPermissions.MY_PERMISSIONS_ACCESS_LOCATION;
 
 public class ButtonsFrag extends Fragment {
     private Button setTarget;
@@ -97,7 +89,7 @@ public class ButtonsFrag extends Fragment {
             errorText.setVisibility(View.GONE);
         } else {
             errorText.setVisibility(View.VISIBLE);
-            errorText.setText(getString(R.string.too_big_value));
+            errorText.setText(getString(R.string.value_beyond_interval));
         }
     }
 
@@ -111,7 +103,7 @@ public class ButtonsFrag extends Fragment {
         Double lat, lng;
         lat = Double.valueOf(latValue);
         lng = Double.valueOf(lngValue);
-        return lat > -180.0 && lat < 180.0 && lng > -180.0 && lng < 180.0;
+        return lat >= -90.0 && lat <= 90.0 && lng >= -180.0 && lng <= 180.0;
 
     }
 
