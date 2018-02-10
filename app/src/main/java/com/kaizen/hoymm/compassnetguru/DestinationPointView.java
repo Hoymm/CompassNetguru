@@ -8,11 +8,12 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 class DestinationPointView {
-    private static float lastTargetDegree = 0f;
+    private static float lastTargetDegree;
     private ImageView targetImg;
 
     DestinationPointView(ImageView triangleTarget) {
         targetImg = triangleTarget;
+        lastTargetDegree = 0f;
     }
 
     void onResume() {
