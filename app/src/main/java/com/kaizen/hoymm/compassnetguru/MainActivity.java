@@ -88,8 +88,10 @@ public class MainActivity extends FragmentActivity implements RefreshCords {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_ACCESS_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initLocationClient();
+                    buttonsFrag.showDialogToPickTargetPointValues();
+                }
                 break;
         }
     }

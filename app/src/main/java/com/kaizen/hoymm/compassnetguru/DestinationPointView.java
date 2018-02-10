@@ -73,6 +73,8 @@ class DestinationPointView {
 
     private void performRotateAnimation(DoublePoint yourPos, DoublePoint targetPos) throws PointsAreTheSameException {
         float rotateFromAngle = lastTargetDegree;
+        Log.i("Position", "yourPos.latitude: " + yourPos.latitude + ", yourPos.longitude: " + yourPos.longitude);
+        Log.i("Position", "targetPos.latitude: " + targetPos.latitude + ", targetPos.longitude: " + targetPos.longitude);
         float rotateToAngle = tryGetBearingBetweenPoints(yourPos, targetPos) - 90;
         lastTargetDegree = rotateToAngle;
 

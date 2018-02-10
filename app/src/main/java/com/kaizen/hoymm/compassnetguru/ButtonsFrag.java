@@ -55,7 +55,7 @@ public class ButtonsFrag extends Fragment {
         };
     }
 
-    private void showDialogToPickTargetPointValues() {
+    void showDialogToPickTargetPointValues() {
         AlertDialog.Builder builderDialog = new AlertDialog.Builder(getContext());
         View latLongPickerView = getLatLngView();
         builderDialog.setView(latLongPickerView);
