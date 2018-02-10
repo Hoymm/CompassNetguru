@@ -17,8 +17,6 @@ public class CompassFrag extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        targetLocation = new DoublePoint();
-        yourLocation = new DoublePoint();
         return inflater.inflate(R.layout.compass_frag, container, false);
     }
 
@@ -54,15 +52,14 @@ public class CompassFrag extends Fragment {
         tryRefreshTargetImg();
     }
 
-    public void setYourLocation(Location location){
-        yourLocation.latitude = location.getLatitude();
-        yourLocation.longitude = location.getLongitude();
+    public void setYourLocationAndRefreshGraph(Location location){
+        yourLocation = new DoublePoint(location.getLatitude(), location.getLongitude());
         tryRefreshTargetImg();
     }
 
     private void tryRefreshTargetImg() {
         try {
-            destinationPointView.refreshTargetPositionIfYourAndTargetKnown(yourLocation, targetLocation);
+            destinationPointView.tryRefreshTargetPositionIfYourAndTargetKnown(yourLocation, targetLocation);
         }catch (Exception e){
             Log.e("Refresh Target", "Either your location or target not known yet.");
         }

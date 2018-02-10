@@ -22,10 +22,10 @@ class DestinationPointView {
 
 
 
-    void refreshTargetPositionIfYourAndTargetKnown(DoublePoint from, DoublePoint to) throws NullPointerException {
-        if (from != null && to != null)
+    void tryRefreshTargetPositionIfYourAndTargetKnown(DoublePoint from, DoublePoint to) throws NullPointerException {
             try {
-                performAnimationSetUpTarget(from, to);
+                if (from != null && to != null)
+                    performAnimationSetUpTarget(from, to);
             } catch (PointsAreTheSameException e) {
                 e.printStackTrace();
                 Log.e("Bearing Angle", "Points given to count bearing are the same.");

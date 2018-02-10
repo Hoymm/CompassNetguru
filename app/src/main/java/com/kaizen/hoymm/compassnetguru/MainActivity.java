@@ -71,7 +71,8 @@ public class MainActivity extends FragmentActivity implements RefreshCords {
                 Log.i("Location", "your location has been determined.");
                 if (location != null) {
                     headerFrag.setYourLocation(location);
-                    compassFrag.setYourLocation(location);
+                    compassFrag.setYourLocationAndRefreshGraph(location);
+
                 }
                 else{
                     headerFrag.setYourLocationUnknown();
